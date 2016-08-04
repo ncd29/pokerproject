@@ -153,7 +153,7 @@ def parseText(filename,website,stake):
             # insert into hands table
             if numHands > 0:
                 # insert ignore so it doesn't fail on duplicates
-                query = ("INSERT IGNORE INTO hands "
+                query = ("REPLACE INTO hands "
                     "(hand_id, big_blind, num_players, dealer, flop, turn, river, flop_group_id, seat1,"
                     "seat1_position, seat1_starting_amount, seat1_cards," 
                     "seat1_preflop_action, seat1_flop_action, seat1_turn_action, seat1_river_action," 
@@ -397,7 +397,7 @@ def parseText(filename,website,stake):
 
             # can just get the big blind from the directory
             #print "stake = " + str(stake)
-            bigBlind = float(stake/100.0)
+            bigBlind = int(stake*100)
             #print "big blind = " + str(bigBlind)
             #print "hand id = " + handId
             if handId in BROKENHANDSLIST:
