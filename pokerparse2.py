@@ -145,15 +145,15 @@ def parseText(filename,website,stake):
         # gets big blind amount and handid
         # new hand, clear data structures
         if getNewHandKeyword(WEBSITE,s):
+            print "if"
             # for i in range(0,numplayers):
             #     print "user " + str(usernames[i]) + " sat in seat " + str(seats[i]) + " ,started with " + str(startingamounts[i]) + " and won " + str(-1*amountLost[i]) 
-            # TODO: add SQL insert statements
             cursor = DB.cursor()
 
             # insert into hands table
             if numHands > 0:
                 # insert ignore so it doesn't fail on duplicates
-                query = ("REPLACE INTO hands "
+                query = ("INSERT INTO hands2 "
                     "(hand_id, big_blind, num_players, dealer, flop, turn, river, flop_group_id, seat1,"
                     "seat1_position, seat1_starting_amount, seat1_cards," 
                     "seat1_preflop_action, seat1_flop_action, seat1_turn_action, seat1_river_action," 
@@ -351,16 +351,17 @@ def parseText(filename,website,stake):
                     print "query failed"
 
                 # insert into players
-                for username in usernames:
-                    playersQuery = ("INSERT IGNORE INTO players "
-                                   "(USER_ID) "
-                                   "VALUES (%(username)s)")
+                # COMMENT OUT FOR REDOING HANDS UPLOAD
+                # for username in usernames:
+                #     playersQuery = ("INSERT IGNORE INTO players "
+                #                    "(USER_ID) "
+                #                    "VALUES (%(username)s)")
 
-                    playersQueryData = {
-                        'username': username,
-                    }
+                #     playersQueryData = {
+                #         'username': username,
+                #     }
 
-                    cursor.execute(playersQuery,playersQueryData)
+                #     cursor.execute(playersQuery,playersQueryData)
 
                 # only commit if HANDFAILED == FALSE
                 #print HANDFAILED
@@ -396,7 +397,7 @@ def parseText(filename,website,stake):
             
 
             # can just get the big blind from the directory
-            #print "stake = " + str(stake)
+            print "stake = " + str(stake)
             bigBlind = int(stake*100)
             #print "big blind = " + str(bigBlind)
             #print "hand id = " + handId
